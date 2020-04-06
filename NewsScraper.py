@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import re
 import numpy as np
 import pandas as pd
-import time
+import sys, traceback
 
 
 news_links = {}
@@ -33,6 +33,10 @@ for url in urls_to_scrape:
                 url_prefix = url[0:-1] if art.get("href")[0:4] != "http" else ""
                 news_links[url_prefix + art.get("href")] = news_text
         except Exception as e:
+            print(e)
+            print('-' * 60)
+            traceback.print_exc(file=sys.stdout)
+            print('-' * 60)
             continue
 
 news_table = pd.DataFrame(list(news_links.items()), columns=["URL","Text"])
